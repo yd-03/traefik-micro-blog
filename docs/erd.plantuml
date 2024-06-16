@@ -1,0 +1,33 @@
+@startuml optimized-traefik-micro-blog
+
+entity "users" {
+  *id : INTEGER <<PK>>
+  name : VARCHAR(255)
+  email : VARCHAR(255) <<UNIQUE>>
+  password_hash : VARCHAR(255)
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+entity "posts" {
+  *id : INTEGER <<PK>>
+  title : VARCHAR(255)
+  content : TEXT
+  author_id : INTEGER <<FK>>
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+entity "comments" {
+  *id : INTEGER <<PK>>
+  post_id : INTEGER <<FK>>
+  author_id : INTEGER <<FK>>
+  content : TEXT
+  created_at : TIMESTAMP
+}
+
+users ||--o{ posts : "author_id"
+posts ||--o{ comments : "post_id"
+users ||--o{ comments : "author_id"
+
+@enduml
